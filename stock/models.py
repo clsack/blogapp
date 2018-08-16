@@ -57,16 +57,3 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('task-detail', kwargs={'pk': self.pk})
-
-
-class Expense(models.Model):
-    ARS = 'ARS'
-    BRL = 'BRL'
-    USD = 'USD'
-    UYU = 'UYU'
-    CURRENCY = (
-        (ARS, 'Argentina Peso'),
-        (BRL, 'Brazil Real'),
-        (USD, 'United States Dollar'),
-        (UYU, 'Uruguay Peso')
-    )
