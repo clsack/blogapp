@@ -5,20 +5,124 @@ from django.urls import reverse
 
 
 class Product(models.Model):
+    CATEGORY = (
+        ('Accesories', (
+                ('sheets', 'Sheets'),
+                ('sponge', 'Sponge')
+                )),
+        ('Skin Care', (
+                ('bodycream', 'Body cream'),
+                ('bodyscrub', 'Body scrub'),
+                ('bosywash', 'Body wash'),
+                ('eyecream', 'Eye cream'),
+                ('facecream', 'Face cream'),
+                ('faceprimer', 'Face primer'),
+                ('facescrub', 'Face scrub'),
+                ('handcream', 'Hand cream'),
+                ('lipbalm', 'Lip balm'),
+                ('makeupremover', 'Makeup remover'),
+                ('mask', 'Mask'),
+                ('serum', 'Serum'),
+                ('shampoo', 'Shampoo'),
+                ('soap', 'Soap'),
+                ('sunblock', 'Sun block'),
+                ('thermalwater', 'Thermal water'),
+                ('toninglotion', 'Toning lotion')
+                )),
+        ('Nail Polish', (
+                ('basecoat', 'Base coat'),
+                ('color', 'Color'),
+                ('topcoat', 'Top coat')
+                )),
+        ('Make Up', (
+                ('blush', 'Blush'),
+                ('bronzer', 'Bronzer'),
+                ('brow', 'Brow'),
+                ('concealer', 'Concealer'),
+                ('eyeliner', 'Eye liner'),
+                ('eyeprimer', 'Eye primer'),
+                ('eyeshadowpds', 'Eye shadow palette Drugstore'),
+                ('eyeshadowphe', 'Eye shadow palette High end'),
+                ('eyeshadowsds', 'Eye shadow Single Drugstore'),
+                ('eyeshadowshe', 'Eye shadow Single High end'),
+                ('foundation', 'Foundation'),
+                ('gloss', 'Gloss'),
+                ('highlighter', 'Highlighter'),
+                ('lipliner', 'Lip liner'),
+                ('lipstick', 'Lipstick'),
+                ('mascara', 'Mascara'),
+                ('paletteds', 'Palette Drugstore'),
+                ('palettehe', 'Palette High end'),
+                ('powder', 'Powder'),
+                ('tint', 'Tint')
+                ))
+        ('Parfum', (
+                ('bodysplash', 'Body splash'),
+                ('toilette', 'Eau de Toilette'),
+                ('parfum', 'Eau de Parfum')
+                )),
+    )
+    FINISH = (
+        ('crack', 'Crack'),
+        ('creme', 'Creme'),
+        ('cremeglitter', 'Creme glitter'),
+        ('duochrome', 'Duochrome'),
+        ('flakies', 'Flakies'),
+        ('glassflecks', 'Glass flecks'),
+        ('glitter', 'Glitter'),
+        ('holographic', 'Holographic'),
+        ('jelly', 'Jelly'),
+        ('matte', 'Matte'),
+        ('metal', 'Metal'),
+        ('mirror', 'Mirror'),
+        ('neon', 'Neon'),
+        ('pearl', 'Pearl'),
+        ('sandy', 'Sandy'),
+        ('satin', 'Satin'),
+        ('shimmer', 'Shimmer'),
+    )
+    COLOR = (
+        ('beige', 'Beige'),
+        ('black', 'Black'),
+        ('blue', 'Blue'),
+        ('bordeaux', 'Bordeaux'),
+        ('brown', 'Brown'),
+        ('clear', 'Clear'),
+        ('copper', 'Copper'),
+        ('gold', 'Gold'),
+        ('green', 'Green'),
+        ('grey', 'Grey'),
+        ('lightblue', 'Lightblue'),
+        ('mix', 'Mix'),
+        ('orange', 'Orange'),
+        ('pink', 'Pink'),
+        ('red', 'Red'),
+        ('silver', 'Silver'),
+        ('violet', 'Violet'),
+        ('white', 'White'),
+        ('yellow', 'Yellow')
+    )
+    CURRENCY = (
+        ('ARS', 'Argentina Peso'),
+        ('BRL', 'Brazil Real'),
+        ('CLP', 'Chilean Peso'),
+        ('USD', 'United States Dollar'),
+        ('UYU', 'Uruguay Peso')
+    )
     product = models.CharField(max_length=100, verbose_name='Product')
     brand = models.CharField(max_length=100, verbose_name='Brand')
     collection = models.CharField(max_length=100, verbose_name='Collection')
-    category = models.CharField(choices=CATEGORY)
-    finish = models.CharField(choices=FINISH)
-    color = models.CharField(choices=COLOR)
-    brought_date = models.DateField()
-    expiration_date = models.DateField()
-    currency = models.CharField(max_length=3, choices=CURRENCY, default=ARS)
-    price = models.DecimalField(max_digits=7, decimal_places=2)
-    posted = models.BooleanField()
-    percentage_used = models.FloatField()
-    finished = models.BooleanField()
-    picture = models.ImageField
+    category = models.CharField(choices=CATEGORY, verbose_name='Category')
+    finish = models.CharField(choices=FINISH, verbose_name='Finish')
+    color = models.CharField(choices=COLOR, verbose_name='Color')
+    brought_date = models.DateField(verbose_name='Brought date')
+    expiration_date = models.DateField(verbose_name='Expiration date')
+    currency = models.CharField(max_length=3, choices=CURRENCY, verbose_name='Currency')
+    price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Price')
+    posted = models.BooleanField(verbose_name='Posted?')
+    percentage_used = models.FloatField(verbose_name='Percentage used')
+    finished = models.BooleanField(verbose_name='Finished?')
+    picture = models.ImageField()
 
     class Meta:
         ordering = ['date_from']
