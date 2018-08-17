@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
-
+from django.core.validators import MaxValueValidator
+from django.core.validators import MinValueValidator
 # Create your models here.
 
 
@@ -43,8 +44,8 @@ class Product(models.Model):
                 ('eyeprimer', 'Eye primer'),
                 ('eyeshadowpds', 'Eye shadow palette Drugstore'),
                 ('eyeshadowphe', 'Eye shadow palette High end'),
-                ('eyeshadowsds', 'Eye shadow Single Drugstore'),
-                ('eyeshadowshe', 'Eye shadow Single High end'),
+                ('eyeshadowsds', 'Eye shadow single Drugstore'),
+                ('eyeshadowshe', 'Eye shadow single High end'),
                 ('foundation', 'Foundation'),
                 ('gloss', 'Gloss'),
                 ('highlighter', 'Highlighter'),
@@ -109,55 +110,62 @@ class Product(models.Model):
         ('USD', 'United States Dollar'),
         ('UYU', 'Uruguay Peso')
     )
+    QUALITY = (
+        ('5', 'Excellent'),
+        ('4', 'Really good'),
+        ('3', 'Good'),
+        ('2', 'Poor'),
+        ('1', 'Awful')
+    )
     product = models.CharField(max_length=100, verbose_name='Product')
     brand = models.CharField(max_length=100, verbose_name='Brand')
-    collection = models.CharField(max_length=100, verbose_name='Collection')
+    collection = models.CharField(max_length=100, verbose_name='Collection', null=True)
     category = models.CharField(choices=CATEGORY, verbose_name='Category')
     finish = models.CharField(choices=FINISH, verbose_name='Finish')
     color = models.CharField(choices=COLOR, verbose_name='Color')
     brought_date = models.DateField(verbose_name='Brought date')
     expiration_date = models.DateField(verbose_name='Expiration date')
-    currency = models.CharField(max_length=3, choices=CURRENCY, verbose_name='Currency')
-    price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Price')
-    posted = models.BooleanField(verbose_name='Posted?')
-    percentage_used = models.FloatField(verbose_name='Percentage used')
-    finished = models.BooleanField(verbose_name='Finished?')
+    currency = models.CharField(max_length=3, choices=CURRENCY, verbose_name='Currency', null=True)
+    price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Price', null=True)
+    duration = models.CharField(choices=QUAlITY, verbose_name='Duration', null=True)
+    quality = models.CharField(choices=QUAlITY, verbose_name='Quality', null=True)
+    percentage_used = models.IntegerField(default=1,
+        validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0)
+        ], verbose_name='Percentage used')
+    finished = models.BooleanField(verbose_name='Finished', null=True)
+    posted = models.BooleanField(verbose_name='Posted', null=True)
     picture = models.ImageField()
 
     class Meta:
-        ordering = ['date_from']
-        get_latest_by = ['-date_from']
+        ordering = ['product', 'brand', 'category']
 
     def __str__(self):
         return self.event_text
 
     def get_absolute_url(self):
-        return reverse('event-detail', kwargs={'pk': self.pk})
+        return reverse('product-detail', kwargs={'pk': self.pk})
 
 
 class Post(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
-    brand = models.CharField(max_length=100, verbose_name='Title')
-    product = models.ForeignKey(
-            'Product',
-            on_delete=models.CASCADE,
-    )
-    link = models.URLField(max_length=200)
-    short = models.URLField(max_length=50)
-    date = models.DateField()
-    gr = models.BooleanField()
-    fb = models.BooleanField()
-    tw = models.BooleanField()
-    pi = models.BooleanField()
-    ig = models.BooleanField()
-    co = models.BooleanField()
+    brand = models.CharField(max_length=100, verbose_name='Brand')
+    product = models.ManyToManyField(Product, verbose_name='Product')
+    tags = models.CharField(max_length=200, verbose_name='Tags')
+    hashtags = models.CharField(max_length=200, verbose_name='Hashtags')
+    link = models.URLField(max_length=200, verbose_name='Link', null=True)
+    short = models.URLField(max_length=50, verbose_name='Short link', null=True)
+    date = models.DateField(verbose_name='Posted date', null=True)
+    ig = models.BooleanField(verbose_name='Published on Instagram')
+    co = models.BooleanField(verbose_name='Comments replied')
 
     class Meta:
-        ordering = ['date_scheduled']
-        get_latest_by = ['-date_scheduled']
+        ordering = ['-date']
+        get_latest_by = ['-date']
 
     def __str__(self):
         return self.task_text
 
     def get_absolute_url(self):
-        return reverse('task-detail', kwargs={'pk': self.pk})
+        return reverse('post-detail', kwargs={'pk': self.pk})
