@@ -117,23 +117,37 @@ class Product(models.Model):
         ('2', 'Poor'),
         ('1', 'Awful')
     )
-    product = models.CharField(max_length=100, verbose_name='Product')
+    product = models.CharField(max_length=150, verbose_name='Product')
     brand = models.CharField(max_length=100, verbose_name='Brand')
-    collection = models.CharField(max_length=100, verbose_name='Collection', null=True)
+    collection = models.CharField(max_length=100,
+                                  verbose_name='Collection',
+                                  null=True)
     category = models.CharField(choices=CATEGORY, verbose_name='Category')
     finish = models.CharField(choices=FINISH, verbose_name='Finish')
     color = models.CharField(choices=COLOR, verbose_name='Color')
-    brought_date = models.DateField(verbose_name='Brought date')
+    bought_date = models.DateField(verbose_name='Bought date')
     expiration_date = models.DateField(verbose_name='Expiration date')
-    currency = models.CharField(max_length=3, choices=CURRENCY, verbose_name='Currency', null=True)
-    price = models.DecimalField(max_digits=7, decimal_places=2, verbose_name='Price', null=True)
-    duration = models.CharField(choices=QUAlITY, verbose_name='Duration', null=True)
-    quality = models.CharField(choices=QUAlITY, verbose_name='Quality', null=True)
+    currency = models.CharField(max_length=3,
+                                choices=CURRENCY,
+                                verbose_name='Currency',
+                                null=True)
+    price = models.DecimalField(max_digits=7,
+                                decimal_places=2,
+                                verbose_name='Price',
+                                null=True)
+    duration = models.CharField(choices=QUALITY,
+                                verbose_name='Duration',
+                                null=True)
+    quality = models.CharField(choices=QUALITY,
+                               verbose_name='Quality',
+                               null=True)
+    project_pan = models.BooleanField(verbose_name='Project pan')
     percentage_used = models.IntegerField(default=1,
-        validators=[
-            MaxValueValidator(100),
-            MinValueValidator(0)
-        ], verbose_name='Percentage used')
+                                          validators=[
+                                                  MaxValueValidator(100),
+                                                  MinValueValidator(0)
+                                                  ],
+                                          verbose_name='Percentage used')
     finished = models.BooleanField(verbose_name='Finished', null=True)
     posted = models.BooleanField(verbose_name='Posted', null=True)
     picture = models.ImageField()
@@ -154,8 +168,11 @@ class Post(models.Model):
     product = models.ManyToManyField(Product, verbose_name='Product')
     tags = models.CharField(max_length=200, verbose_name='Tags')
     hashtags = models.CharField(max_length=200, verbose_name='Hashtags')
+    published = models.BooleanField(verbose_name='Posted')
     link = models.URLField(max_length=200, verbose_name='Link', null=True)
-    short = models.URLField(max_length=50, verbose_name='Short link', null=True)
+    short = models.URLField(max_length=50,
+                            verbose_name='Short link',
+                            null=True)
     date = models.DateField(verbose_name='Posted date', null=True)
     ig = models.BooleanField(verbose_name='Published on Instagram')
     co = models.BooleanField(verbose_name='Comments replied')
