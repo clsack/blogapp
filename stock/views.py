@@ -91,7 +91,7 @@ class PostCreate(CreateView):
               'product',
               'tags',
               'hashtags',
-              'published',
+              'posted',
               'link',
               'short',
               'date',
@@ -103,7 +103,7 @@ class PostCreate(CreateView):
 class PostUpdate(UpdateView):
     model = Post
     fields = ['title',
-              'published',
+              'posted',
               'link',
               'short',
               'date',
@@ -133,15 +133,15 @@ class PostListView(ListView):
     template_name = 'posts/list.html'
 
 
-class PublishedListView(ListView):
+class PostedListView(ListView):
 
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(published=True)
+    queryset = Product.objects.filter(posted=True)
     template_name = 'posts/list.html'
 
 
 class DraftListView(ListView):
 
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(published=False)
+    queryset = Product.objects.filter(posted=False)
     template_name = 'posts/list.html'

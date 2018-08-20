@@ -48,7 +48,7 @@ urlpatterns = [
          views.PostListView.as_view(),
          name='post-list'),
     path('posts/all/',
-         views.PublishedListView.as_view(),
+         views.PostedListView.as_view(),
          name='post-list'),
     path('posts/all/',
          views.DraftListView.as_view(),

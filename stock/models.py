@@ -10,7 +10,7 @@ class Product(models.Model):
     CATEGORY = (
         ('Accesories', (
                 ('sheets', 'Sheets'),
-                ('sponge', 'Sponge')
+                ('sponge', 'Sponge'),
                 )),
         ('Skin Care', (
                 ('bodycream', 'Body cream'),
@@ -29,12 +29,12 @@ class Product(models.Model):
                 ('soap', 'Soap'),
                 ('sunblock', 'Sun block'),
                 ('thermalwater', 'Thermal water'),
-                ('toninglotion', 'Toning lotion')
+                ('toninglotion', 'Toning lotion'),
                 )),
         ('Nail Polish', (
                 ('basecoat', 'Base coat'),
                 ('color', 'Color'),
-                ('topcoat', 'Top coat')
+                ('topcoat', 'Top coat'),
                 )),
         ('Make Up', (
                 ('blush', 'Blush'),
@@ -56,12 +56,12 @@ class Product(models.Model):
                 ('paletteds', 'Palette Drugstore'),
                 ('palettehe', 'Palette High end'),
                 ('powder', 'Powder'),
-                ('tint', 'Tint')
-                ))
+                ('tint', 'Tint'),
+                )),
         ('Parfum', (
                 ('bodysplash', 'Body splash'),
                 ('toilette', 'Eau de Toilette'),
-                ('parfum', 'Eau de Parfum')
+                ('parfum', 'Eau de Parfum'),
                 )),
     )
     FINISH = (
@@ -123,9 +123,9 @@ class Product(models.Model):
     collection = models.CharField(max_length=100,
                                   verbose_name='Collection',
                                   null=True)
-    category = models.CharField(choices=CATEGORY, verbose_name='Category')
-    finish = models.CharField(choices=FINISH, verbose_name='Finish')
-    color = models.CharField(choices=COLOR, verbose_name='Color')
+    category = models.CharField(max_length=100, choices=CATEGORY, verbose_name='Category')
+    finish = models.CharField(max_length=50, choices=FINISH, verbose_name='Finish')
+    color = models.CharField(max_length=30, choices=COLOR, verbose_name='Color')
     bought_date = models.DateField(verbose_name='Bought date')
     expiration_date = models.DateField(verbose_name='Expiration date')
     currency = models.CharField(max_length=3,
@@ -136,10 +136,10 @@ class Product(models.Model):
                                 decimal_places=2,
                                 verbose_name='Price',
                                 null=True)
-    duration = models.CharField(choices=QUALITY,
+    duration = models.CharField(max_length=20, choices=QUALITY,
                                 verbose_name='Duration',
                                 null=True)
-    quality = models.CharField(choices=QUALITY,
+    quality = models.CharField(max_length=20, choices=QUALITY,
                                verbose_name='Quality',
                                null=True)
     project_pan = models.BooleanField(verbose_name='Project pan')
@@ -169,7 +169,7 @@ class Post(models.Model):
     product = models.ManyToManyField(Product, verbose_name='Product')
     tags = models.CharField(max_length=200, verbose_name='Tags')
     hashtags = models.CharField(max_length=200, verbose_name='Hashtags')
-    published = models.BooleanField(verbose_name='Posted')
+    posted = models.BooleanField(verbose_name='Posted')
     link = models.URLField(max_length=200, verbose_name='Link', null=True)
     short = models.URLField(max_length=50,
                             verbose_name='Short link',
