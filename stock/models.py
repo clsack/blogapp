@@ -149,8 +149,8 @@ class Product(models.Model):
                                                   MinValueValidator(0)
                                                   ],
                                           verbose_name='Percentage used')
-    finished = models.BooleanField(verbose_name='Finished', null=True)
-    posted = models.BooleanField(verbose_name='Posted', null=True)
+    finished = models.BooleanField(verbose_name='Finished')
+    posted = models.BooleanField(verbose_name='Posted')
     picture = models.ImageField()
 
     class Meta:
