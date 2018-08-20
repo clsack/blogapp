@@ -1,6 +1,6 @@
 # blogapp
 
-##Setting the environment
+## Setting the environment
 
 Create a virtual environment:
 
@@ -17,15 +17,14 @@ Activate virtualenv:
 
 Install requirements:
 
-* `pip install django==2.1 google-api-python-client Pillow`
+* `pip install -r requirements.txt`
 
 ## Running the application
 
 Migrations:
 
-* `cd blogapp`
 * `python manage.py migrate`
 
 Run server:
 
-* `python manage.py runserver --settings=blogapp.settings localhost:8080`
+* `python manage.py runsslserver localhost:8080`
