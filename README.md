@@ -17,7 +17,7 @@ Activate virtualenv:
 
 Install requirements:
 
-* `pip install django==2.1 google-api-python-client Pillow`
+* `pip install -r requirements.txt`
 
 ## Running the application
 
