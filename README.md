@@ -23,7 +23,6 @@ Install requirements:
 
 Migrations:
 
-* `cd blogapp`
 * `python manage.py migrate`
 
 Run server:
