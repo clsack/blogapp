@@ -1,6 +1,6 @@
 # blogapp
 
-##Setting the environment
+## Setting the environment
 
 Create a virtual environment:
 
