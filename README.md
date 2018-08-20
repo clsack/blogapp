@@ -27,4 +27,4 @@ Migrations:
 
 Run server:
 
-* `python manage.py runserver --settings=blogapp.settings localhost:8080`
+* `python manage.py runserver localhost:8080`
