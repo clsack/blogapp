@@ -3,8 +3,15 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views import generic
 from django.urls import reverse_lazy
+from django.db.models import Count
+
+# Bokeh
+from bokeh.plotting import figure
+from bokeh.resources import CDN
+from bokeh.embed import components
+
 from .models import Product, Post
-# Create your views here.
+from .constants import CATEGORY
 
 
 def index(request):
@@ -82,6 +89,33 @@ class ProjectPanListView(ListView):
     context_object_name = 'product_list'
     queryset = Product.objects.filter(project_pan=True)
     template_name = 'products/list.html'
+
+
+class ProductGraph(generic.DetailView):
+    model = Product
+    template_name = 'product/product_graph.html'
+
+    def simple_chart(request):
+        categories = CATEGORY
+
+        count = Product.objects.annotate(num=Count('category'))
+
+        plot = figure(x_range=categories,
+                      plot_height=250,
+                      title="Stock for category",
+                      toolbar_location=None,
+                      tools="")
+
+        plot.vbar(x=categories, top=count, width=0.9)
+
+        plot.xgrid.grid_line_color = None
+        plot.y_range.start = 0
+
+        script, div = components(plot, CDN)
+
+        return render(request,
+                      "products/product_graph.html",
+                      {"the_script": script, "the_div": div})
 
 
 class PostCreate(CreateView):
