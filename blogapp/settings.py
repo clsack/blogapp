@@ -104,6 +104,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/blogger',
+]
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '951775551504-79e155jq777fvumr0ofh54okhu0k5l9k.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'MZwg45z7WB8rO71XZXnXUn3k'
 
