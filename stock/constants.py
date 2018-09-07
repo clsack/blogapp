@@ -14,7 +14,7 @@ CATEGORY = (
     ('Skin Care', (
             ('bodycream', 'Body cream'),
             ('bodyscrub', 'Body scrub'),
-            ('bosywash', 'Body wash'),
+            ('bodywash', 'Body wash'),
             ('eyecream', 'Eye cream'),
             ('facecream', 'Face cream'),
             ('faceprimer', 'Face primer'),
