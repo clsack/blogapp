@@ -34,7 +34,9 @@ class ProductCreate(CreateView):
               'quality',
               'project_pan',
               'percentage_used',
-              'finished'
+              'finished',
+              'posted',
+              'picture'
               ]
     template_name = 'products/form.html'
 
@@ -47,11 +49,17 @@ class ProductUpdate(UpdateView):
               'category',
               'finish',
               'color',
+              'bought_date',
+              'expiration_date',
+              'currency',
+              'price',
               'duration',
               'quality',
               'project_pan',
               'percentage_used',
-              'finished'
+              'finished',
+              'posted',
+              'picture'
               ]
     template_name = 'products/form.html'
 
@@ -78,14 +86,12 @@ class ProductListView(ListView):
 
 
 class NonfinishedListView(ListView):
-
     context_object_name = 'product_list'
     queryset = Product.objects.filter(finished=False)
     template_name = 'products/list.html'
 
 
 class ProjectPanListView(ListView):
-
     context_object_name = 'product_list'
     queryset = Product.objects.filter(project_pan=True)
     template_name = 'products/list.html'
@@ -168,14 +174,12 @@ class PostListView(ListView):
 
 
 class PostedListView(ListView):
-
     context_object_name = 'post_list'
     queryset = Product.objects.filter(posted=True)
     template_name = 'posts/list.html'
 
 
 class DraftListView(ListView):
-
     context_object_name = 'post_list'
     queryset = Product.objects.filter(posted=False)
     template_name = 'posts/list.html'

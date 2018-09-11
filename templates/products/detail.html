@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    {{ product.product }}
+    {{ product.brand }}
+    {{ product.collection }}
+    {{ product.category }}
+    {{ product.finish }}
+    {{ product.color }}
+    {{ product.bought_date }}
+    {{ product.expiration_date }}
+    {{ product.currency }}
+    {{ product.price }}
+    {{ product.duration }}
+    {{ product.quality }}
+    {{ product.project_pan }}
+    {{ product.percentage_used }}
+    {{ product.finished }}
+    {{ product.posted }}
+    <img src="{{ product.picture }}">
+{% endblock %}

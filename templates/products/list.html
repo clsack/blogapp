@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>products</h1>
+<ul>
+{% for product in object_list %}
+    <div>
+        <div>
+            {{ product.category }}
+        </div>
+        <div>
+            {{ product.brand }}
+        </div>
+        <div>
+            <img src="{{ product.picture }}">
+        </div>
+        <div>
+            {{ product.product }}
+        </div>
+        <div>
+            {{ product.color }}
+        </div>
+        <div>
+            {{ product.bought_date }}
+        </div>
+        <div>
+            {{ product.expiration_date }}
+        </div>
+        <div>
+            {{ product.currency }} {{ product.price }}
+        </div>
+        <div>
+            {{ product.duration }}
+        </div>
+        <div>
+            {{ product.quality }}
+        </div>
+        <div>
+            {{ product.project_pan }}
+        </div>
+        <div>
+            {{ product.percentage_used }}
+        </div>
+        <div>
+            {{ product.finished }}
+        </div>
+        <div>
+            <a href='{% url "product-delete" product.pk %}'>Delete</a>
+        </div>
+    </div>
+{% empty %}
+    <li>No products. Time to go shopping!</li>
+{% endfor %}
+</ul>
+
+{% endblock %}
