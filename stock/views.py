@@ -12,7 +12,7 @@ from bokeh.embed import components
 
 from .models import Product, Post
 from .constants import CATEGORY
-
+from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 
 def index(request):
     return render(request, 'index.html')
@@ -82,6 +82,36 @@ class ProductDetail(generic.DetailView):
 
 class ProductListView(ListView):
     model = Product
+    template_name = 'products/list.html'
+
+
+class AccesoriesListView(ListView):
+    context_object_name = 'product_list'
+    queryset = Product.objects.filter(category__in=ACCESORIES)
+    template_name = 'products/list.html'
+
+
+class SkincareListView(ListView):
+    context_object_name = 'product_list'
+    queryset = Product.objects.filter(category__in=SKINCARE)
+    template_name = 'products/list.html'
+
+
+class NailpolishListView(ListView):
+    context_object_name = 'product_list'
+    queryset = Product.objects.filter(category__in=NAILPOLISH)
+    template_name = 'products/list.html'
+
+
+class MakeupListView(ListView):
+    context_object_name = 'product-list'
+    queryset = Product.objects.filter(category__in=MAKEUP)
+    template_name = 'products/list.html'
+
+
+class ParfumListView(ListView):
+    context_object_name = 'product_list'
+    queryset = Product.objects.filter(category__in=PARFUM)
     template_name = 'products/list.html'
 
 
