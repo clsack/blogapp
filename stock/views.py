@@ -83,48 +83,54 @@ class ProductDetail(generic.DetailView):
 
 class ProductListView(ListView):
     model = Product
+    paginate_by = 20
     template_name = 'products/list.html'
 
 
 class AccesoriesListView(ListView):
     context_object_name = 'product_list'
-    queryset = Product.objects.filter(category__in=ACCESORIES)
+    queryset = Product.objects.filter(category__in=ACCESORIES)\
+        .exclude(finished=True)
     template_name = 'products/list.html'
 
 
 class SkincareListView(ListView):
     context_object_name = 'product_list'
-    queryset = Product.objects.filter(category__in=SKINCARE)
+    queryset = Product.objects.filter(category__in=SKINCARE)\
+        .exclude(finished=True)
     template_name = 'products/list.html'
 
 
 class NailpolishListView(ListView):
     context_object_name = 'product_list'
-    queryset = Product.objects.filter(category__in=NAILPOLISH)
+    queryset = Product.objects.filter(category__in=NAILPOLISH)\
+        .exclude(finished=True)
     template_name = 'products/list.html'
 
 
 class MakeupListView(ListView):
     context_object_name = 'product-list'
-    queryset = Product.objects.filter(category__in=MAKEUP)
+    queryset = Product.objects.filter(category__in=MAKEUP)\
+        .exclude(finished=True)
     template_name = 'products/list.html'
 
 
 class ParfumListView(ListView):
     context_object_name = 'product_list'
-    queryset = Product.objects.filter(category__in=PARFUM)
+    queryset = Product.objects.filter(category__in=PARFUM)\
+        .exclude(finished=True)
     template_name = 'products/list.html'
 
 
 class NonfinishedListView(ListView):
     context_object_name = 'product_list'
-    queryset = Product.objects.filter(finished=False)
+    queryset = Product.objects.exclude(finished=True)
     template_name = 'products/list.html'
 
 
 class ProjectPanListView(ListView):
     context_object_name = 'product_list'
-    queryset = Product.objects.filter(project_pan=True)
+    queryset = Product.objects.filter(project_pan=True).exclude(finished=True)
     template_name = 'products/list.html'
 
 

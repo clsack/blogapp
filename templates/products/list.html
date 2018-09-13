@@ -22,6 +22,7 @@
                             <th scope="col">&nbsp;</th>
                             <th scope="col">&nbsp;</th>
                             <th scope="col" class="text-center">Used</th>
+                            <th scope="col" class="text-center">Category</th>
                             <th scope="col">&nbsp;</th>
                         </tr>
                     </thead>
@@ -35,7 +36,7 @@
                             <td class="tm-product-name">{{ product.brand }}</td>
                             <td class="text-center">{{ product.product }}</td>
                             <td class="text-center">{{ product.percentage_used }}%</td>
-                            
+                            <td class="text-center">{{ product.get_category_display }}%</td>
                             <td><i class="fas fa-trash-alt tm-trash-icon"></i><a href='{% url "product-delete" product.pk %}'></td>
                         </tr>
                     {% empty %}
@@ -73,9 +74,9 @@
             <h2 class="tm-block-title d-inline-block">Product Categories</h2>
             <table class="table table-hover table-striped mt-3">
                 <tbody>
-                {% for product in object_list %}
+                {% for category in object_list %}
                     <tr>
-                        <td>1. Cras efficitur lacus</td>
+                        <td>{{ category.brand }}</td>
                         <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
                     </tr>
                 {% endfor %}

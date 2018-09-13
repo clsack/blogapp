@@ -5,6 +5,8 @@ Created on Tue Aug 21 13:08:51 2018
 
 @author: carol
 """
+from django.model_utils import Choices
+
 
 CATEGORY = (
     ('Accesories', (
@@ -63,6 +65,55 @@ CATEGORY = (
             ('parfum', 'Eau de Parfum'),
             )),
 )
+
+CAT = Choices(
+        ('Accesories', ['Sheets',
+                        'Sponge']),
+        ('Skin Care', ['Body cream',
+                       'Body scrub',
+                       'Body wash',
+                       'Eye cream',
+                       'Face cream',
+                       'Face primer',
+                       'Face scrub',
+                       'Hand cream',
+                       'Lip balm',
+                       'Makeup remover',
+                       'Mask',
+                       'Serum',
+                       'Shampoo',
+                       'Soap',
+                       'Sun block',
+                       'Thermal water',
+                       'Toning lotion']),
+        ('Nail Polish', ['Color',
+                         'Base coat',
+                         'Top coat']),
+        ('Make Up', ['Blush',
+                     'Bronzer',
+                     'Brow',
+                     'Concealer',
+                     'Eye liner',
+                     'Eye primer',
+                     'Eye shadow palette Drugstore',
+                     'Eye shadow palette High end',
+                     'Eye shadow single Drugstore',
+                     'Eye shadow single High end',
+                     'Foundation',
+                     'Gloss',
+                     'Highlighter',
+                     'Lip liner',
+                     'Lipstick',
+                     'Mascara',
+                     'Palette Drugstore',
+                     'Palette High end',
+                     'Powder',
+                     'Tint']),
+        ('Parfum', ['Body splash',
+                    'Eau de toilette',
+                    'Eau de parfum']),
+
+        )
 
 FINISH = (
     ('crack', 'Crack'),
