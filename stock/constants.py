@@ -121,3 +121,10 @@ QUALITY = (
     ('2', 'Poor'),
     ('1', 'Awful')
 )
+
+
+ACCESORIES = [x[0] for x in CATEGORY[0][1]]
+SKINCARE = [x[0] for x in CATEGORY[1][1]]
+NAILPOLISH = [x[0] for x in CATEGORY[2][1]]
+MAKEUP = [x[0] for x in CATEGORY[3][1]]
+PARFUM = [x[0] for x in CATEGORY[4][1]]

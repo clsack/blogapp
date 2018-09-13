@@ -25,13 +25,13 @@ SECRET_KEY = 'l(828&yy0dop%el$rfu3wpsqm-y+qo1%v02p=!*!kin!nnv*6-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'stock.apps.StockConfig',
+    'stock',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
