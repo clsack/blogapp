@@ -14,6 +14,7 @@ from .models import Product, Post
 from .constants import CATEGORY
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 
+
 def index(request):
     return render(request, 'index.html')
 
