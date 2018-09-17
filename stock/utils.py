@@ -12,7 +12,7 @@ from requests import exceptions as requests_errors
 
 import sys
 
-from oauth2client import client
+from google.oauth2client import client
 from googleapiclient import sample_tools
 from google.auth.exceptions import RefreshError
 from google.oauth2.credentials import Credentials
