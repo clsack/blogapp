@@ -134,9 +134,11 @@ class ProjectPanListView(ListView):
     template_name = 'products/list.html'
 
 
-class ProductGraph(generic.DetailView):
-    model = Product
-    template_name = 'product/product_graph.html'
+class ProductGraph(ListView):
+    context_object_name = 'product_graph'
+    template_name = 'products/product_graph.html'
+    queryset = Product.objects.exclude(category__in=NAILPOLISH)\
+        .exclude(finished=True)
 
     def simple_chart(request):
         categories = ACCESORIES + SKINCARE + MAKEUP + PARFUM

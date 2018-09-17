@@ -53,7 +53,7 @@ urlpatterns = [
 
     path('products/graph/',
          views.ProductGraph.as_view(),
-         name='product_graph'),
+         name='product-graph'),
 
     path('posts/add/',
          views.PostCreate.as_view(),
