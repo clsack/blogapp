@@ -139,7 +139,7 @@ class ProductGraph(generic.DetailView):
     template_name = 'product/product_graph.html'
 
     def simple_chart(request):
-        categories = CATEGORY
+        categories = ACCESORIES + SKINCARE + MAKEUP + PARFUM
 
         count = Product.objects.annotate(num=Count('category'))
 
@@ -149,7 +149,7 @@ class ProductGraph(generic.DetailView):
                       toolbar_location=None,
                       tools="")
 
-        plot.vbar(x=categories, top=count, width=0.9)
+        plot.vbar(x=categories.sort(), top=count, width=0.9)
 
         plot.xgrid.grid_line_color = None
         plot.y_range.start = 0
