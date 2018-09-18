@@ -7,6 +7,10 @@ Created on Wed Aug 22 20:34:42 2018
 """
 
 from __future__ import print_function
+
+import re
+import unidecode
+
 from datetime import datetime
 from requests import exceptions as requests_errors
 
@@ -17,6 +21,10 @@ from googleapiclient import sample_tools
 from google.auth.exceptions import RefreshError
 from google.oauth2.credentials import Credentials
 from social_django.utils import load_strategy
+
+from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
+from .constants import GENERIC_LIST, ACCESORIES_LIST, SKINCARE_LIST, \
+    NAILPOLISH_LIST, MAKEUP_LIST, PARFUM_LIST
 
 
 def main(argv):
@@ -188,3 +196,21 @@ def get_blog_posts(argv):
     except client.AccessTokenRefreshError:
         print('The credentials have been revoked or expired, please re-run \
               the application to re-authorize')
+
+
+def generate_hashtags(product):
+    brand = unidecode.unidecode(re.sub("[' ]", "", product['brand'].lower()))
+    category = product['category']
+    if product['category'] in ACCESORIES:
+        words = ACCESORIES_LIST
+    elif product['category'] in SKINCARE:
+        words = SKINCARE_LIST
+    elif product['category'] in NAILPOLISH:
+        words = NAILPOLISH_LIST
+    elif product['category'] in MAKEUP:
+        words = MAKEUP_LIST
+    elif product['category'] in PARFUM:
+        words = PARFUM_LIST
+    hashtags_list = brand + category + GENERIC_LIST + words
+    hashtags = '#' + ' #'.join(hashtags_list)
+    return hashtags

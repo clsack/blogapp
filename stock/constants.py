@@ -179,3 +179,53 @@ SKINCARE = [x[0] for x in CATEGORY[1][1]]
 NAILPOLISH = [x[0] for x in CATEGORY[2][1]]
 MAKEUP = [x[0] for x in CATEGORY[3][1]]
 PARFUM = [x[0] for x in CATEGORY[4][1]]
+
+GENERIC_LIST = ['beautyblogger',
+                'beautyblog',
+                'beauty',
+                'bblogger'
+                ]
+
+ACCESORIES_LIST = ['accesories',
+                   'accesorios']
+
+SKINCARE_LIST = ['skincare',
+                 'face',
+                 'hautpflege',
+                 'skincareroutine',
+                 'moisturizer']
+
+NAILPOLISH_LIST = ['nailpolish',
+                   'esmalte',
+                   'swatch',
+                   'nails',
+                   'notd',
+                   'npa',
+                   'nagel',
+                   'nageln',
+                   'polishaholic',
+                   'instanails',
+                   'nailjunkie',
+                   'nailstagram',
+                   'nailswag',
+                   'nailporn',
+                   'nailsoftheday',
+                   'nailgasm',
+                   'nagellack',
+                   'nailpro',
+                   'nails2inspire',
+                   'nailsdone']
+
+MAKEUP_LIST = ['makeup',
+               'maquillaje',
+               'makeupaddict',
+               'makeupjunkie',
+               'mua',
+               'makeuplover',
+               'makeupaholic',
+               'makeupcollection',
+               'makeupporn']
+
+PARFUM_LIST = ['parfum',
+               'perfume',
+               'fragance']
