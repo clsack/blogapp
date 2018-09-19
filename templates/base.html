@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
     <!-- https://getbootstrap.com/ -->
     <link rel="stylesheet" href="{% static "css/tooplate.css" %}">
+    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.8.1.min.css">
 </head>
 
 <body id="reportsPage">
@@ -56,6 +57,7 @@
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href='{% url "nonfinished-list" %}'>Non finished</a>
                                         <a class="dropdown-item" href='{% url "projectpan-list" %}'>Project pan</a>
+                                        <a class="dropdown-item" href='{% url "product-graph" %}'>Stock</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -135,6 +137,7 @@
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <!-- https://getbootstrap.com/ -->
     <script src="{% static "js/tooplate-scripts.js" %}"></script>
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.8.1.min.js"></script>
     <script>
         let ctxLine,
             ctxBar,

@@ -11,7 +11,7 @@ from bokeh.resources import CDN
 from bokeh.embed import components
 
 from .models import Product, Post
-from .constants import CATEGORY
+from .constants import CATEGORY, STATUS
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 
 
@@ -134,12 +134,14 @@ class ProjectPanListView(ListView):
     template_name = 'products/list.html'
 
 
-class ProductGraph(generic.DetailView):
-    model = Product
-    template_name = 'product/product_graph.html'
+class ProductGraph(ListView):
+    context_object_name = 'product_graph'
+    template_name = 'products/product_graph.html'
+    queryset = Product.objects.exclude(category__in=NAILPOLISH)\
+        .exclude(finished=True)
 
     def simple_chart(request):
-        categories = CATEGORY
+        categories = ACCESORIES + SKINCARE + MAKEUP + PARFUM
 
         count = Product.objects.annotate(num=Count('category'))
 
@@ -149,7 +151,7 @@ class ProductGraph(generic.DetailView):
                       toolbar_location=None,
                       tools="")
 
-        plot.vbar(x=categories, top=count, width=0.9)
+        plot.vbar(x=categories.sort(), top=count, width=0.9)
 
         plot.xgrid.grid_line_color = None
         plot.y_range.start = 0
@@ -168,7 +170,7 @@ class PostCreate(CreateView):
               'product',
               'tags',
               'hashtags',
-              'posted',
+              'status',
               'link',
               'short',
               'date',
@@ -180,7 +182,7 @@ class PostCreate(CreateView):
 class PostUpdate(UpdateView):
     model = Post
     fields = ['title',
-              'posted',
+              'status',
               'link',
               'short',
               'date',
@@ -212,11 +214,11 @@ class PostListView(ListView):
 
 class PostedListView(ListView):
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(posted=True)
+    queryset = Product.objects.filter(status=True)
     template_name = 'posts/list.html'
 
 
 class DraftListView(ListView):
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(posted=False)
+    queryset = Product.objects.filter(status=False)
     template_name = 'posts/list.html'
