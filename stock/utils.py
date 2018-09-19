@@ -12,7 +12,6 @@ from requests import exceptions as requests_errors
 
 import sys
 
-from oauth2client import client
 from googleapiclient import sample_tools
 from google.auth.exceptions import RefreshError
 from google.oauth2.credentials import Credentials
@@ -51,7 +50,7 @@ def main(argv):
                             print('  %s (%s)' % (post['title'], post['url']))
                             request = posts.list_next(request, posts_doc)
 
-    except client.AccessTokenRefreshError:
+    except RefreshError:
         print('The credentials have been revoked or expired, please re-run \
               the application to re-authorize')
 
@@ -133,7 +132,7 @@ def get_user_profile(argv):
         # Retrieve this user's profile information
         thisuser = users.get(userId='self').execute()
         return thisuser
-    except client.AccessTokenRefreshError:
+    except RefreshError:
         print('The credentials have been revoked or expired, please re-run \
               the application to re-authorize')
 
@@ -148,7 +147,7 @@ def get_user_blogs(argv):
         blogs = service.blogs()
         thisusersblogs = blogs.listByUser(userId='self').execute()
         return thisusersblogs
-    except client.AccessTokenRefreshError:
+    except RefreshError:
         print('The credentials have been revoked or expired, please re-run \
               the application to re-authorize')
 
@@ -163,7 +162,7 @@ def get_blog_id(argv):
         blogs = service.blogs()
         blog_id = blogs.getByUrl('https://bordeauxnouvelle.blogspot.com')
         return blog_id
-    except client.AccessTokenRefreshError:
+    except RefreshError:
         print('The credentials have been revoked or expired, please re-run \
               the application to re-authorize')
 
@@ -185,6 +184,6 @@ def get_blog_posts(argv):
                     print('  %s (%s)' % (post['title'], post['url']))
                     request = posts.list_next(request, posts_doc)
 
-    except client.AccessTokenRefreshError:
+    except RefreshError:
         print('The credentials have been revoked or expired, please re-run \
               the application to re-authorize')
