@@ -11,7 +11,7 @@ from bokeh.resources import CDN
 from bokeh.embed import components
 
 from .models import Product, Post
-from .constants import CATEGORY
+from .constants import CATEGORY, STATUS
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 
 
@@ -170,7 +170,7 @@ class PostCreate(CreateView):
               'product',
               'tags',
               'hashtags',
-              'posted',
+              'status',
               'link',
               'short',
               'date',
@@ -182,7 +182,7 @@ class PostCreate(CreateView):
 class PostUpdate(UpdateView):
     model = Post
     fields = ['title',
-              'posted',
+              'status',
               'link',
               'short',
               'date',
@@ -214,11 +214,11 @@ class PostListView(ListView):
 
 class PostedListView(ListView):
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(posted=True)
+    queryset = Product.objects.filter(status=True)
     template_name = 'posts/list.html'
 
 
 class DraftListView(ListView):
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(posted=False)
+    queryset = Product.objects.filter(status=False)
     template_name = 'posts/list.html'

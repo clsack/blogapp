@@ -1,9 +1,11 @@
 from django.db import models
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 
 from .constants import CATEGORY, FINISH, COLOR, CURRENCY, QUALITY
+from .utils import generate_hashtags
 # Create your models here.
 
 
@@ -87,7 +89,8 @@ class Post(models.Model):
                             verbose_name='Tags')
     hashtags = models.CharField(max_length=200,
                                 verbose_name='Hashtags')
-    posted = models.BooleanField(verbose_name='Posted')
+    status = models.CharField(max_length=10,
+                              verbose_name='Status')
     link = models.URLField(max_length=200,
                            verbose_name='Link',
                            null=True)
@@ -108,3 +111,11 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
+
+    def clean(self):
+        if self.hashtags == '':
+            self.hashtags = generate_hashtags(self.product)
+        if self.status == 'draft' and self.pub_date is not None:
+            raise ValidationError(_('Drafts may not have a publication date.'))
+        if self.status == 'published' and self.pub_date is None:
+            self.pub_date = datetime.date.today()

@@ -173,6 +173,10 @@ QUALITY = (
     ('1', 'Awful')
 )
 
+STATUS = (
+    ('1', 'Published'),
+    ('0', 'Draft')
+)
 
 ACCESORIES = [x[0] for x in CATEGORY[0][1]]
 SKINCARE = [x[0] for x in CATEGORY[1][1]]
