@@ -4,6 +4,7 @@ from django.views.generic.list import ListView
 from django.views import generic
 from django.urls import reverse_lazy
 from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Bokeh
 from bokeh.plotting import figure
@@ -11,7 +12,6 @@ from bokeh.resources import CDN
 from bokeh.embed import components
 
 from .models import Product, Post
-from .constants import CATEGORY, STATUS
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 
 
@@ -36,7 +36,7 @@ class ProductCreate(CreateView):
               'project_pan',
               'percentage_used',
               'finished',
-              'posted',
+              'status',
               'picture'
               ]
     template_name = 'products/form.html'
@@ -59,7 +59,7 @@ class ProductUpdate(UpdateView):
               'project_pan',
               'percentage_used',
               'finished',
-              'posted',
+              'status',
               'picture'
               ]
     template_name = 'products/form.html'

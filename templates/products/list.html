@@ -36,7 +36,7 @@
                             <td class="tm-product-name">{{ product.brand }}</td>
                             <td class="text-center">{{ product.product }}</td>
                             <td class="text-center">{{ product.percentage_used }}%</td>
-                            <td class="text-center">{{ product.get_category_display }}%</td>
+                            <td class="text-center">{{ product.get_category_display }}</td>
                             <td><i class="fas fa-trash-alt tm-trash-icon"></i><a href='{% url "product-delete" product.pk %}'></td>
                         </tr>
                     {% empty %}
@@ -51,19 +51,32 @@
                     <button class="btn btn-danger">Delete Selected Items</button>
                 </div>
                 <div class="tm-table-actions-col-right">
+                    {% if is_paginated %}
                     <span class="tm-pagination-label">Page</span>
                     <nav aria-label="Page navigation" class="d-inline-block">
                         <ul class="pagination tm-pagination">
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <span class="tm-dots d-block">...</span>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">13</a></li>
-                            <li class="page-item"><a class="page-link" href="#">14</a></li>
+                            {% if page_obj.has_previous %}
+                              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                              <li class="page-item active"><span>&laquo;</span></li>
+                            {% endif %}
+                            {% for i in paginator.page_range %}
+                              {% if i <= page_obj.number|add:3 and i >= page_obj.number|add:-3 %}
+                                  {% if page_obj.number == i %}
+                                    <li class="page-item active"><span> <span class="page-link">{{ i }}</span></span></li>
+                                  {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                  {% endif %}
+                              {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                              <li class="page-item active"><span>&raquo;</span></li>
+                            {% endif %}
                         </ul>
                     </nav>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -74,16 +87,16 @@
             <h2 class="tm-block-title d-inline-block">Product Categories</h2>
             <table class="table table-hover table-striped mt-3">
                 <tbody>
-                {% for category in object_list %}
+                {% for product in object_list|dictsort:'category' %}
+                    {% ifchanged %}
                     <tr>
-                        <td>{{ category.brand }}</td>
+                        <td>{{ product.category }}</td>
                         <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
                     </tr>
+                    {% endifchanged %}
                 {% endfor %}
                 </tbody>
             </table>
-
-            <a href="#" class="btn btn-primary tm-table-mt">Add New Category</a>
         </div>
     </div>
 </div>

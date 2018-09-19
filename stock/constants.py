@@ -175,8 +175,9 @@ QUALITY = (
 )
 
 STATUS = (
-    ('1', 'Published'),
-    ('0', 'Draft')
+    ('0', 'Draft'),
+    ('1', 'Published')
+
 )
 
 ACCESORIES = [x[0] for x in CATEGORY[0][1]]

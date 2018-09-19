@@ -25,7 +25,7 @@ mark_as_projectpan.short_description = "Mark selected as Project pan"
 
 
 def mark_as_posted(modeladmin, request, queryset):
-    queryset.update(posted=True)
+    queryset.update(status=True)
 
 
 mark_as_posted.short_description = "Mark selected as posted"
@@ -47,7 +47,7 @@ class ProductAdmin(admin.ModelAdmin):
                     'project_pan',
                     'percentage_used',
                     'finished',
-                    'posted',
+                    'status',
                     'picture'
                     ]
     ordering = ['product', 'brand', 'category']
@@ -66,7 +66,7 @@ class PostAdmin(admin.ModelAdmin):
                     'brand',
                     'tags',
                     'hashtags',
-                    'posted',
+                    'status',
                     'link',
                     'short',
                     'date',

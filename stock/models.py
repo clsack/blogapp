@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 
-from .constants import CATEGORY, FINISH, COLOR, CURRENCY, QUALITY
+from .constants import CATEGORY, FINISH, COLOR, CURRENCY, QUALITY, STATUS
 from .utils import generate_hashtags
 # Create your models here.
 
@@ -63,8 +63,10 @@ class Product(models.Model):
                                           verbose_name='Percentage used')
     finished = models.BooleanField(verbose_name='Finished',
                                    default=False)
-    posted = models.BooleanField(verbose_name='Posted',
-                                 default=False)
+    status = models.CharField(max_length=10,
+                              choices=STATUS,
+                              verbose_name='Status',
+                              default='Draft')
     picture = models.ImageField(blank=True,
                                 null=True)
 
@@ -90,7 +92,9 @@ class Post(models.Model):
     hashtags = models.CharField(max_length=200,
                                 verbose_name='Hashtags')
     status = models.CharField(max_length=10,
-                              verbose_name='Status')
+                              choices=STATUS,
+                              verbose_name='Status',
+                              default='Draft')
     link = models.URLField(max_length=200,
                            verbose_name='Link',
                            null=True)
