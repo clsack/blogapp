@@ -90,8 +90,10 @@
                 {% for product in object_list|dictsort:'category' %}
                     {% ifchanged %}
                     <tr>
-                        <td>{{ product.category }}</td>
-                        <td class="tm-trash-icon-cell"><i class="fas fa-trash-alt tm-trash-icon"></i></td>
+                        <td><form method="get">
+                          {{ filter.form.as_p }}
+                          <button type="submit" class="btn btn-primary">{{ product.category }}</button>
+                        </form></td>
                     </tr>
                     {% endifchanged %}
                 {% endfor %}

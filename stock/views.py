@@ -13,6 +13,7 @@ from bokeh.embed import components
 
 from .models import Product, Post
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
+from .filters import ProductFilter, PostFilter
 
 
 def index(request):
@@ -120,6 +121,13 @@ class ParfumListView(ListView):
     queryset = Product.objects.filter(category__in=PARFUM)\
         .exclude(finished=True)
     template_name = 'products/list.html'
+
+    def search(request):
+        product_list = Product.objects.all()
+        product_filter = ProductFilter(request.GET, queryset=product_list)
+        return render(request,
+                      'products/list.html',
+                      {'filter': product_filter})
 
 
 class NonfinishedListView(ListView):

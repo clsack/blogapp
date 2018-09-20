@@ -7,6 +7,8 @@ Created on Fri Aug 17 11:47:44 2018
 """
 
 from django.urls import path
+from django_filters.views import FilterView
+from .filters import ProductFilter, PostFilter
 from . import views
 
 urlpatterns = [
@@ -27,6 +29,11 @@ urlpatterns = [
     path('products/all/',
          views.ProductListView.as_view(),
          name='product-list'),
+
+    path('products/search/',
+         FilterView.as_view(filterset_class=ProductFilter,
+                            template_name='product-list'),
+         name='product-filter'),
 
     path('products/accesories/',
          views.AccesoriesListView.as_view(),
