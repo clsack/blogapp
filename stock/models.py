@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 
+from datetime import datetime
+
 from .constants import CATEGORY, FINISH, COLOR, CURRENCY, QUALITY, STATUS
 from .utils import generate_hashtags
 # Create your models here.
@@ -120,6 +122,6 @@ class Post(models.Model):
         if self.hashtags == '':
             self.hashtags = generate_hashtags(self.product)
         if self.status == 'draft' and self.pub_date is not None:
-            raise ValidationError(_('Drafts may not have a publication date.'))
+            raise ValidationError('Drafts may not have a publication date.')
         if self.status == 'published' and self.pub_date is None:
             self.pub_date = datetime.date.today()
