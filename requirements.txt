@@ -4,3 +4,4 @@ Pillow
 social-auth-app-django
 django-sslserver
 bokeh
+unidecode
