@@ -5,3 +5,4 @@ social-auth-app-django
 django-sslserver
 bokeh
 unidecode
+django_filter
