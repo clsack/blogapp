@@ -33,7 +33,7 @@
                             </th>
                             <td><img src="{{ product.picture }}"></td>
                             <td class="tm-product-name">{{ product.brand }}</td>
-                            <td class="text-left"><a href='{% url "product-update" product.pk %}'>{{ product.product }}</td>
+                            <td class="text-left"><a href='{% url "product-detail" product.pk %}'>{{ product.product }}</td>
                             <td class="text-center">{{ product.percentage_used }}%</td>
                             <td class="text-center">{{ product.get_category_display }}</td>
                         </tr>

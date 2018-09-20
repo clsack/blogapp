@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 
 # Bokeh
 from bokeh.plotting import figure
@@ -17,6 +18,7 @@ from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 from .filters import ProductFilter, PostFilter
 
 
+@login_required
 def index(request):
     return render(request, 'index.html')
 
