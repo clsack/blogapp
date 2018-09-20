@@ -19,7 +19,13 @@
             <canvas id="pieChart" class="chartjs-render-monitor"></canvas>
         </div>
     </div>
-
+    <div>
+        <form action="index.html" method="post" class="tm-login-form">
+            <div class="input-group mt-3">
+                <button type="submit" class="btn btn-primary d-inline-block mx-auto"><a href="{% url "social:begin" "google-oauth2" %}">Blogger</a></button>
+            </div>
+        </form>
+    </div>
     <div class="tm-col tm-col-big">
         <div class="bg-white tm-block h-100">
             <div class="row">
@@ -76,12 +82,12 @@
                 <li class="tm-list-group-item">Lorem ipsum doloe</li>
                 <li class="tm-list-group-item">Read reports</li>
                 <li class="tm-list-group-item">Write email</li>
-                
+
                 <li class="tm-list-group-item">Call customers</li>
                 <li class="tm-list-group-item">Go to meeting</li>
                 <li class="tm-list-group-item">Weekly plan</li>
                 <li class="tm-list-group-item">Ask for feedback</li>
-                
+
                 <li class="tm-list-group-item">Meet Supervisor</li>
                 <li class="tm-list-group-item">Company trip</li>
             </ol>

@@ -209,13 +209,13 @@ label {
 
 .btn {
   border-radius: 0;
-  padding: 13px 28px;
+  padding: 4px 22px;
   transition: all 0.2s ease;
   max-width: 100%;
 }
 
 .btn-small {
-  padding: 10px 24px;
+  padding: 4px 22px;
 }
 
 .btn-primary {
@@ -296,7 +296,7 @@ label {
 
 .page-link,
 .tm-dots {
-  padding: 12px 18px;
+  padding: 6px 12px;
 }
 
 .page-link,
@@ -324,7 +324,7 @@ label {
 
 .tm-pagination-label {
   padding-bottom: 15px;
-  padding-right: 15px;
+  padding-right: 12px;
   display: inline-block;
 }
 
@@ -345,8 +345,6 @@ input[type="checkbox"] {
   box-sizing: border-box;
   position: relative;
   box-sizing: content-box;
-  width: 24px;
-  height: 24px;
   transition: all 0.1s linear;
 }
 input[type="checkbox"]:checked {
@@ -357,16 +355,16 @@ input[type="checkbox"]:focus {
   box-shadow: none;
 }
 
-.tm-trash-icon {
+.tm-check-icon {
   color: #6e6c6c;
   cursor: pointer;
 }
 
-.tm-trash-icon:hover {
+.tm-check-icon:hover {
   color: #9f1321;
 }
 
-.tm-trash-icon-cell {
+.tm-check-icon-cell {
   width: 15px;
 }
 

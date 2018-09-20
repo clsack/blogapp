@@ -13,6 +13,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('login/', views.logout, name='logout'),
     path('products/add/',
          views.ProductCreate.as_view(),
          name='product-add'),

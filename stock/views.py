@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views import generic
 from django.urls import reverse_lazy
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth import login as auth_login, logout as auth_logout
 
 # Bokeh
 from bokeh.plotting import figure
@@ -18,6 +19,11 @@ from .filters import ProductFilter, PostFilter
 
 def index(request):
     return render(request, 'index.html')
+
+
+def logout(request):
+    auth_logout(request)
+    return render(request, 'login.html')
 
 
 class ProductCreate(CreateView):
@@ -92,6 +98,7 @@ class AccesoriesListView(ListView):
     context_object_name = 'product_list'
     queryset = Product.objects.filter(category__in=ACCESORIES)\
         .exclude(finished=True)
+    paginate_by = 20
     template_name = 'products/list.html'
 
 
@@ -99,6 +106,7 @@ class SkincareListView(ListView):
     context_object_name = 'product_list'
     queryset = Product.objects.filter(category__in=SKINCARE)\
         .exclude(finished=True)
+    paginate_by = 20
     template_name = 'products/list.html'
 
 
@@ -106,6 +114,7 @@ class NailpolishListView(ListView):
     context_object_name = 'product_list'
     queryset = Product.objects.filter(category__in=NAILPOLISH)\
         .exclude(finished=True)
+    paginate_by = 20
     template_name = 'products/list.html'
 
 
@@ -113,6 +122,7 @@ class MakeupListView(ListView):
     context_object_name = 'product-list'
     queryset = Product.objects.filter(category__in=MAKEUP)\
         .exclude(finished=True)
+    paginate_by = 20
     template_name = 'products/list.html'
 
 
@@ -120,6 +130,7 @@ class ParfumListView(ListView):
     context_object_name = 'product_list'
     queryset = Product.objects.filter(category__in=PARFUM)\
         .exclude(finished=True)
+    paginate_by = 20
     template_name = 'products/list.html'
 
     def search(request):
@@ -133,12 +144,14 @@ class ParfumListView(ListView):
 class NonfinishedListView(ListView):
     context_object_name = 'product_list'
     queryset = Product.objects.exclude(finished=True)
+    paginate_by = 20
     template_name = 'products/list.html'
 
 
 class ProjectPanListView(ListView):
     context_object_name = 'product_list'
     queryset = Product.objects.filter(project_pan=True).exclude(finished=True)
+    paginate_by = 20
     template_name = 'products/list.html'
 
 
@@ -217,16 +230,19 @@ class PostDetail(generic.DetailView):
 
 class PostListView(ListView):
     model = Post
+    paginate_by = 20
     template_name = 'posts/list.html'
 
 
 class PostedListView(ListView):
     context_object_name = 'post_list'
     queryset = Product.objects.filter(status=True)
+    paginate_by = 20
     template_name = 'posts/list.html'
 
 
 class DraftListView(ListView):
     context_object_name = 'post_list'
     queryset = Product.objects.filter(status=False)
+    paginate_by = 20
     template_name = 'posts/list.html'
