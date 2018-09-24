@@ -105,15 +105,17 @@ class Post(models.Model):
                             null=True)
     date = models.DateField(verbose_name='Posted date',
                             null=True)
-    ig = models.BooleanField(verbose_name='Published on Instagram')
-    co = models.BooleanField(verbose_name='Comments replied')
+    ig = models.BooleanField(verbose_name='Published on Instagram',
+                             default=False)
+    co = models.BooleanField(verbose_name='Comments replied',
+                             default=False)
 
     class Meta:
         ordering = ['-date']
         get_latest_by = ['-date']
 
     def __str__(self):
-        return self.task_text
+        return self.title
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})

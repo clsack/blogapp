@@ -5,6 +5,7 @@ from .models import Product, Post
 
 def mark_as_finished(modeladmin, request, queryset):
     queryset.update(finished=True)
+    queryset.update(percentage_used=100)
 
 
 mark_as_finished.short_description = "Mark selected as finished"
@@ -61,18 +62,24 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 
 
+class ProductInline(admin.TabularInline):
+    model = Post.product.through
+    verbose_name = u'Product'
+    verbose_name_plural = u'Products'
+
+
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title',
                     'brand',
-                    'tags',
                     'hashtags',
                     'status',
                     'link',
-                    'short',
                     'date',
                     'ig',
                     'co']
     ordering = ['-date']
+    exclude = ('product',)
+    inlines = (ProductInline,)
     actions = [mark_as_posted]
 
 

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- row -->
+<div class="row tm-content-row tm-mt-big">
+    <div class="col-xl-8 col-lg-12 tm-md-12 tm-sm-12 tm-col">
+        <div class="bg-white tm-block h-100">
+            <div class="row">
+                <div class="col-md-8 col-sm-12">
+                    <h2 class="tm-block-title d-inline-block">Posts</h2>
+
+                </div>
+                <div class="col-md-4 col-sm-12 text-right">
+                    <a href=# class="btn btn-small btn-primary">Update</a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped tm-table-striped-even mt-3">
+                    <thead>
+                        <tr class="tm-bg-gray">
+                            <th scope="col"><i class="fas fa-check"></i></th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Hashtags</th>
+                            <th scope="col">Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for post in object_list %}
+                        <tr>
+                            <th scope="row">
+                                <input type="checkbox" aria-label="Checkbox">
+                            </th>
+                            <td class="tm-product-name"><a href='{% url "post-detail" post.pk %}'>{{ post.title }}</td>
+                            <td class="text-left">{{ post.brand }}</td>
+                            <td class="text-left"><a href='{% url "post-detail" post.pk %}'>{{ post.product }}</td>
+                            <td class="text-left">{{ post.hashtags }}</td>
+                            <td class="text-left"><a class="dropdown-item" href='{{ post.link }}'>Link</td>
+                        </tr>
+                    {% empty %}
+                    <li>No posts.</li>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tm-table-mt tm-table-actions-row">
+                <div class="tm-table-actions-col-left">
+                    <button class="btn btn-danger">Mark as published</button>
+                </div>
+                <div class="tm-table-actions-col-right">
+                    {% if is_paginated %}
+                    <span class="tm-pagination-label">Page</span>
+                    <nav aria-label="Page navigation" class="d-inline-block">
+                        <ul class="pagination tm-pagination">
+                            {% if page_obj.has_previous %}
+                              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                              <li class="page-item active"><span>&laquo;</span></li>
+                            {% endif %}
+                            {% for i in paginator.page_range %}
+                              {% if i <= page_obj.number|add:3 and i >= page_obj.number|add:-3 %}
+                                  {% if page_obj.number == i %}
+                                    <li class="page-item active"><span> <span class="page-link">{{ i }}</span></span></li>
+                                  {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                  {% endif %}
+                              {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                              <li class="page-item active"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-12 tm-md-12 tm-sm-12 tm-col">
+        <div class="bg-white tm-block h-100">
+            <h2 class="tm-block-title d-inline-block">Product Categories</h2>
+            <table class="table table-hover table-striped mt-3">
+                <tbody>
+                {% for product in object_list|dictsort:'category' %}
+                    {% ifchanged %}
+                    <tr>
+                        <td><form method="get">
+                          {{ filter.form.as_p }}
+                          <button type="submit" class="btn btn-primary">{{ product.category }}</button>
+                        </form></td>
+                    </tr>
+                    {% endifchanged %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

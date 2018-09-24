@@ -4,21 +4,27 @@ from django.views.generic.list import ListView
 from django.views import generic
 from django.urls import reverse_lazy
 from django.db.models import Count
+from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+
+from .blogger import Credentials
+
+from googleapiclient import discovery
 
 # Bokeh
 from bokeh.plotting import figure
 from bokeh.resources import CDN
 from bokeh.embed import components
+from dateutil import parser
 
 from .models import Product, Post
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 from .filters import ProductFilter, PostFilter
 
 
-@login_required
+@login_required(login_url='/login/')
 def index(request):
     return render(request, 'index.html')
 
@@ -238,13 +244,39 @@ class PostListView(ListView):
 
 class PostedListView(ListView):
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(status=True)
+    queryset = Product.objects.filter(status='Published')
     paginate_by = 20
     template_name = 'posts/list.html'
 
 
 class DraftListView(ListView):
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(status=False)
+    queryset = Product.objects.filter(status='Draft')
     paginate_by = 20
     template_name = 'posts/list.html'
+
+
+def get_posts(request):
+    fullposts = []
+    user = request.user
+    usa = user.social_auth.get(provider='google-oauth2')
+    service = discovery.build('blogger', 'v3', credentials=Credentials(usa))
+    blogs = service.blogs()
+    posts = service.posts()
+    # userblogs = blogs.listByUser(userId='self').execute()
+    blog = blogs.getByUrl(url=settings.BLOG_URL).execute()
+    blogposts = posts.list(blogId=blog['id'])
+    while blogposts is not None:
+        posts_doc = blogposts.execute()
+        fullposts.append(posts_doc['items'])
+        blogposts = posts.list_next(blogposts, posts_doc)
+    flat_posts = [item for sublist in fullposts for item in sublist]
+    for post in flat_posts:
+        print(post)
+        data = Post(title=post['title'],
+                    tags=', '.join(post['labels']),
+                    status='Published',
+                    link=post['url'],
+                    date=parser.parse(post['published']).date())
+        data.save()
+    return render(request, 'posts/list.html')

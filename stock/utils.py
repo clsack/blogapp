@@ -21,6 +21,8 @@ from google.auth.exceptions import RefreshError
 from google.oauth2.credentials import Credentials
 from social_django.utils import load_strategy
 
+from django.shortcuts import redirect
+
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 from .constants import GENERIC_LIST, ACCESORIES_LIST, SKINCARE_LIST, \
     NAILPOLISH_LIST, MAKEUP_LIST, PARFUM_LIST
@@ -213,3 +215,10 @@ def generate_hashtags(product):
     hashtags_list = brand + category + GENERIC_LIST + words
     hashtags = '#' + ' #'.join(hashtags_list)
     return hashtags
+
+
+def redirect_if_no_refresh_token(backend, response, social, *args, **kwargs):
+    if backend.name == 'google-oauth2' and social and \
+       response.get('refresh_token') is None and \
+       social.extra_data.get('refresh_token') is None:
+        return redirect('/login/google-oauth2?approval_prompt=force')

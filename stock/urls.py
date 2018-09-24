@@ -84,4 +84,7 @@ urlpatterns = [
     path('posts/draft/',
          views.DraftListView.as_view(),
          name='draft-list'),
+    path('posts/get_posts',
+         views.get_posts,
+         name='get_posts-list'),
     ]
