@@ -6,3 +6,4 @@ django-sslserver
 bokeh
 unidecode
 django_filter
+nltk
