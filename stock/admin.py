@@ -85,8 +85,7 @@ class PostAdmin(admin.ModelAdmin):
                     'date',
                     'status',
                     'ig',
-                    'co',
-                    'image']
+                    'co']
     ordering = ['-date']
     actions = [generate_hashtags, mark_as_publishedig]
 

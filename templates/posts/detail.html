@@ -40,12 +40,7 @@
                     </form>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mb-4">
-                    <img src="{{ post.image_url }}" alt={{ post.image }} class="img-fluid mx-auto d-block">
-                    <div class="custom-file mt-3 mb-3">
-                        <input id="fileInput" type="file" style="display:none;" />
-                        <input type="button" class="btn btn-primary d-block mx-auto" value="Upload ..." onclick="document.getElementById('fileInput').click();"
-                        />
-                    </div>
+                    <img src="{{ post.image_url }}" alt={{ post.image }} class="img-fluid mx-auto d-block" style="width:100%;padding:10px;">
                     <div class="input-group mb-3">
                         <input value="{{ post.brand }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
                     </div>

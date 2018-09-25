@@ -127,7 +127,6 @@ class Post(models.Model):
     co = models.BooleanField(verbose_name='Comments replied',
                              default=False)
     upload_path = 'media/post'
-    image = models.ImageField(upload_to=upload_path, null=True, blank=True)
     image_url = models.URLField(null=True, blank=True)
 
     class Meta:

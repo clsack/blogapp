@@ -290,14 +290,12 @@ def get_posts(request):
                 urllib.request.urlretrieve(img_url, os.path.join(file_save_dir, filename))
             else:
                 filename = 'default-placeholder.png'
-            img = os.path.join(file_save_dir, filename)
             data = Post(blogger_id=post['id'],
                         title=post['title'],
                         tags=', '.join(post['labels']),
                         link=post['url'],
                         date=parser.parse(post['published']).date(),
                         status=1,
-                        image=img,
                         image_url=img_url
                         )
             data.save()
