@@ -279,15 +279,17 @@ def get_posts(request):
         try:
             n = Post.objects.get(blogger_id=post['id'])
         except ObjectDoesNotExist:
-            extract_urls = re.findall('src="(.*?)"', post['content'], re.DOTALL)
-            if extract_urls:
-                img_url = extract_urls[0]
+            extract_url = re.findall('src="(.*?)"', post['content'], re.DOTALL)
+            if extract_url:
+                img_url = extract_url[0]
             else:
                 img_url = ''
             file_save_dir = 'media/post'
             if any(ext in img_url for ext in settings.EXTENTIONSCHECK):
                 filename = urllib.parse.urlparse(img_url).path.split('/')[-1]
-                urllib.request.urlretrieve(img_url, os.path.join(file_save_dir, filename))
+                urllib.request.urlretrieve(img_url,
+                                           os.path.join(file_save_dir,
+                                                        filename))
             else:
                 filename = 'default-placeholder.png'
             data = Post(blogger_id=post['id'],

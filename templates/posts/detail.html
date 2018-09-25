@@ -13,39 +13,43 @@
                 <div class="col-xl-7 col-lg-7 col-md-12">
                     <form action="" class="tm-edit-product-form">
                         <div class="input-group mb-3">
-                            <label for="title" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Title</label>
+                            <label for="title" class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-form-label">Title</label>
                                 <input value="{{ post.title }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
                         </div>
                         <div class="input-group mb-3">
-                            <label for="tags" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Tags</label>
+                            <label for="tags" class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-form-label">Tags</label>
                                 <textarea class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7" rows="3" required>{{ post.tags }}</textarea>
                         </div>
                         <div class="input-group mb-3">
-                            <label for="hashtags" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Hashtags</label>
+                            <label for="hashtags" class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-form-label">Hashtags</label>
                                 <textarea class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7" rows="5" required>{{ post.hashtags }}</textarea>
                         </div>
                         <div class="input-group mb-3">
-                            <label for="hashtags" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Published on Instagram</label>
+                            <label for="ig" class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-form-label">Published on Instagram</label>
                                 <label for="ig" class="switch">
                                   <input type="checkbox">
                                   <span class="slider round"></span>
                                 </label>
-
                         </div>
                         <div class="input-group mb-3">
-                            <label for="co" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Comments replied</label>
-
+                            <label for="co" class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-form-label">Comments replied</label>
+                                <label for="ig" class="switch">
+                                  <input type="checkbox">
+                                  <span class="slider round"></span>
+                                </label>
                         </div>
 
                     </form>
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mb-4">
-                    <img src="{{ post.image_url }}" alt={{ post.image }} class="img-fluid mx-auto d-block" style="width:100%;padding:10px;">
-                    <div class="input-group mb-3">
-                        <input value="{{ post.brand }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
+                    <img src="{{ post.image_url }}" alt={{ post.image }} class="img-fluid mx-auto d-block" style="width:100%;">
+                    <div class="input-group mb-3 mt-3">
+                        <label for="title" class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-form-label">Brand</label>
+                            <input value="{{ post.brand }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
                     </div>
-                    <div class="input-group mb-3">
-                        <input value="{{ post.product }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
+                    <div class="input-group mb-3 mt-3">
+                        <label for="title" class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-form-label">Product</label>
+                            <input value="{{ post.product }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
                     </div>
                 </div>
             </div>
