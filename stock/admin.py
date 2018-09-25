@@ -25,11 +25,25 @@ def mark_as_projectpan(modeladmin, request, queryset):
 mark_as_projectpan.short_description = "Mark selected as Project pan"
 
 
+def mark_as_publishedig(modeladmin, request, queryset):
+    queryset.update(ig=True)
+
+
+mark_as_publishedig.short_description = "Published on Instagram"
+
+
 def mark_as_posted(modeladmin, request, queryset):
-    queryset.update(status=True)
+    queryset.update(status='1')
 
 
 mark_as_posted.short_description = "Mark selected as posted"
+
+
+def generate_hashtags(modeladmin, request, queryset):
+    queryset.update(hashtags=generate_hashtags(modeladmin.product))
+
+
+generate_hashtags.short_description = "Generate hashtags"
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -49,10 +63,10 @@ class ProductAdmin(admin.ModelAdmin):
                     'percentage_used',
                     'finished',
                     'status',
-                    'picture'
+                    'image'
                     ]
-    ordering = ['product', 'brand', 'category']
-    list_filter = ['project_pan', 'category', 'brand']
+    ordering = ['category', 'brand', 'product']
+    list_filter = ['finished', 'project_pan', 'category', 'brand']
     actions = [mark_as_finished,
                mark_as_expired,
                mark_as_projectpan,
@@ -62,25 +76,19 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 
 
-class ProductInline(admin.TabularInline):
-    model = Post.product.through
-    verbose_name = u'Product'
-    verbose_name_plural = u'Products'
-
-
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title',
                     'brand',
+                    'product',
                     'hashtags',
-                    'status',
                     'link',
                     'date',
+                    'status',
                     'ig',
-                    'co']
+                    'co',
+                    'image']
     ordering = ['-date']
-    exclude = ('product',)
-    inlines = (ProductInline,)
-    actions = [mark_as_posted]
+    actions = [generate_hashtags, mark_as_publishedig]
 
 
 admin.site.register(Post, PostAdmin)

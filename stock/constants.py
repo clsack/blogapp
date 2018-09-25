@@ -13,6 +13,7 @@ CATEGORY = (
     ('Accesories', (
             ('sheets', 'Sheets'),
             ('sponge', 'Sponge'),
+            ('buffer', 'Buffer'),
             )),
     ('Skin Care', (
             ('bodycream', 'Body cream'),
@@ -64,6 +65,10 @@ CATEGORY = (
             ('bodysplash', 'Body splash'),
             ('toilette', 'Eau de Toilette'),
             ('parfum', 'Eau de Parfum'),
+            )),
+    ('Other', (
+            ('empties', 'Empties'),
+            ('projectpan', 'Project pan'),
             )),
 )
 
@@ -186,11 +191,12 @@ NAILPOLISH = [x[0] for x in CATEGORY[2][1]]
 MAKEUP = [x[0] for x in CATEGORY[3][1]]
 PARFUM = [x[0] for x in CATEGORY[4][1]]
 
-GENERIC_LIST = ['beautyblogger',
-                'beautyblog',
-                'beauty',
-                'bblogger'
-                ]
+PROJECTPAN_LIST = ' #projectpan #projectpan2018 #panporn #panthatpalette \
+    #aufgebraucht #panthatpalette2018 #empties #terminados'
+
+GENERIC_LIST = ' #beautyblogger #beautyblog #beauty #bblogger'
+
+NAILS_LIST = ' #nailart #stamping #gradient'
 
 ACCESORIES_LIST = ['accesories',
                    'accesorios']

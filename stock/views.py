@@ -8,16 +8,20 @@ from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
 from .blogger import Credentials
 
 from googleapiclient import discovery
+import urllib
+import os
 
 # Bokeh
 from bokeh.plotting import figure
 from bokeh.resources import CDN
 from bokeh.embed import components
 from dateutil import parser
+import re
 
 from .models import Product, Post
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
@@ -199,9 +203,9 @@ class PostCreate(CreateView):
               'product',
               'tags',
               'hashtags',
-              'status',
               'link',
               'short',
+              'status',
               'date',
               'ig',
               'co']
@@ -211,9 +215,9 @@ class PostCreate(CreateView):
 class PostUpdate(UpdateView):
     model = Post
     fields = ['title',
-              'status',
               'link',
               'short',
+              'status',
               'date',
               'ig',
               'co']
@@ -244,14 +248,14 @@ class PostListView(ListView):
 
 class PostedListView(ListView):
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(status='Published')
+    queryset = Post.objects.filter(status='Published')
     paginate_by = 20
     template_name = 'posts/list.html'
 
 
 class DraftListView(ListView):
     context_object_name = 'post_list'
-    queryset = Product.objects.filter(status='Draft')
+    queryset = Post.objects.filter(status='Draft')
     paginate_by = 20
     template_name = 'posts/list.html'
 
@@ -272,11 +276,29 @@ def get_posts(request):
         blogposts = posts.list_next(blogposts, posts_doc)
     flat_posts = [item for sublist in fullposts for item in sublist]
     for post in flat_posts:
-        print(post)
-        data = Post(title=post['title'],
-                    tags=', '.join(post['labels']),
-                    status='Published',
-                    link=post['url'],
-                    date=parser.parse(post['published']).date())
-        data.save()
+        try:
+            n = Post.objects.get(blogger_id=post['id'])
+        except ObjectDoesNotExist:
+            extract_urls = re.findall('src="(.*?)"', post['content'], re.DOTALL)
+            if extract_urls:
+                img_url = extract_urls[0]
+            else:
+                img_url = ''
+            file_save_dir = 'media/post'
+            if any(ext in img_url for ext in settings.EXTENTIONSCHECK):
+                filename = urllib.parse.urlparse(img_url).path.split('/')[-1]
+                urllib.request.urlretrieve(img_url, os.path.join(file_save_dir, filename))
+            else:
+                filename = 'default-placeholder.png'
+            img = os.path.join(file_save_dir, filename)
+            data = Post(blogger_id=post['id'],
+                        title=post['title'],
+                        tags=', '.join(post['labels']),
+                        link=post['url'],
+                        date=parser.parse(post['published']).date(),
+                        status=1,
+                        image=img,
+                        image_url=img_url
+                        )
+            data.save()
     return render(request, 'posts/list.html')

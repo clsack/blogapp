@@ -25,7 +25,7 @@ from django.shortcuts import redirect
 
 from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 from .constants import GENERIC_LIST, ACCESORIES_LIST, SKINCARE_LIST, \
-    NAILPOLISH_LIST, MAKEUP_LIST, PARFUM_LIST
+    NAILPOLISH_LIST, MAKEUP_LIST, PARFUM_LIST, PROJECTPAN_LIST
 
 
 def main(argv):
@@ -200,21 +200,20 @@ def get_blog_posts(argv):
 
 
 def generate_hashtags(product):
-    brand = unidecode.unidecode(re.sub("[' ]", "", product['brand'].lower()))
-    category = product['category']
-    if product['category'] in ACCESORIES:
-        words = ACCESORIES_LIST
-    elif product['category'] in SKINCARE:
-        words = SKINCARE_LIST
-    elif product['category'] in NAILPOLISH:
-        words = NAILPOLISH_LIST
-    elif product['category'] in MAKEUP:
-        words = MAKEUP_LIST
-    elif product['category'] in PARFUM:
-        words = PARFUM_LIST
+    brand = ' #' + unidecode.unidecode(re.sub("[' ]", "", product.brand.lower()))
+    category = ' #' + product.category
+    if product.category in ACCESORIES:
+        words = ' #'.join(ACCESORIES_LIST)
+    elif product.category in SKINCARE:
+        words = ' #'.join(SKINCARE_LIST)
+    elif product.category in NAILPOLISH:
+        words = ' #'.join(NAILPOLISH_LIST)
+    elif product.category in MAKEUP:
+        words = ' #' + ' #'.join(MAKEUP_LIST)
+    elif product.category in PARFUM:
+        words = ' #'.join(PARFUM_LIST)
     hashtags_list = brand + category + GENERIC_LIST + words
-    hashtags = '#' + ' #'.join(hashtags_list)
-    return hashtags
+    return hashtags_list
 
 
 def redirect_if_no_refresh_token(backend, response, social, *args, **kwargs):

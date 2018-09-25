@@ -63,6 +63,7 @@ urlpatterns = [
          views.ProductGraph.as_view(),
          name='product-graph'),
 
+    # Posts urls
     path('posts/add/',
          views.PostCreate.as_view(),
          name='post-add'),
@@ -84,7 +85,9 @@ urlpatterns = [
     path('posts/draft/',
          views.DraftListView.as_view(),
          name='draft-list'),
+
+    # Load posts
     path('posts/get_posts',
          views.get_posts,
-         name='get_posts-list'),
+         name='get-list'),
     ]

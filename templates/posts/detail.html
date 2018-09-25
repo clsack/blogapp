@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- row -->
+<div class="row tm-mt-big">
+    <div class="col-md-12 col-sm-12">
+        <div class="bg-white tm-block">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="tm-block-title d-inline-block">Detail</h2>
+                </div>
+            </div>
+            <div class="row mt-4 tm-edit-product-row">
+                <div class="col-xl-7 col-lg-7 col-md-12">
+                    <form action="" class="tm-edit-product-form">
+                        <div class="input-group mb-3">
+                            <label for="title" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Title</label>
+                                <input value="{{ post.title }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
+                        </div>
+                        <div class="input-group mb-3">
+                            <label for="tags" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Tags</label>
+                                <textarea class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7" rows="3" required>{{ post.tags }}</textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label for="hashtags" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Hashtags</label>
+                                <textarea class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7" rows="5" required>{{ post.hashtags }}</textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <label for="hashtags" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Published on Instagram</label>
+                                <label for="ig" class="switch">
+                                  <input type="checkbox">
+                                  <span class="slider round"></span>
+                                </label>
+
+                        </div>
+                        <div class="input-group mb-3">
+                            <label for="co" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Comments replied</label>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mb-4">
+                    <img src="{{ post.image_url }}" alt={{ post.image }} class="img-fluid mx-auto d-block">
+                    <div class="custom-file mt-3 mb-3">
+                        <input id="fileInput" type="file" style="display:none;" />
+                        <input type="button" class="btn btn-primary d-block mx-auto" value="Upload ..." onclick="document.getElementById('fileInput').click();"
+                        />
+                    </div>
+                    <div class="input-group mb-3">
+                        <input value="{{ post.brand }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input value="{{ post.product }}" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

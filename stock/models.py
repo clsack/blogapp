@@ -5,8 +5,11 @@ from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 
 from datetime import datetime
-
+import urllib
+import os
+from django.conf import settings
 from .constants import CATEGORY, FINISH, COLOR, CURRENCY, QUALITY, STATUS
+from .constants import GENERIC_LIST, PROJECTPAN_LIST, NAILS_LIST, NAILPOLISH_LIST
 from .utils import generate_hashtags
 # Create your models here.
 
@@ -69,8 +72,9 @@ class Product(models.Model):
                               choices=STATUS,
                               verbose_name='Status',
                               default='Draft')
-    picture = models.ImageField(blank=True,
-                                null=True)
+    upload_path = 'media/product'
+    image = models.ImageField(upload_to=upload_path, null=True, blank=True)
+    image_url = models.URLField(null=True, blank=True)
 
     class Meta:
         ordering = ['product', 'brand', 'category']
@@ -81,34 +85,50 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product-detail', kwargs={'pk': self.pk})
 
+    def save(self, *args, **kwargs):
+        if self.image_url:
+            file_save_dir = self.upload_path
+            filename = urllib.parse(self.image_url).path.split('/')[-1]
+            urllib.urlretrieve(self.image_url,
+                               os.path.join(file_save_dir, filename))
+            self.image = os.path.join(file_save_dir, filename)
+            self.image_url = ''
+            self.brand = filename.split('_')[0]
+        super(Product, self).save()
+
 
 class Post(models.Model):
+    blogger_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=100,
                              verbose_name='Title')
     brand = models.CharField(max_length=100,
                              verbose_name='Brand')
-    product = models.ManyToManyField(Product,
-                                     verbose_name='Product')
-    tags = models.CharField(max_length=200,
-                            verbose_name='Tags')
-    hashtags = models.CharField(max_length=200,
-                                verbose_name='Hashtags')
+    product = models.ForeignKey(Product,
+                                on_delete=models.CASCADE,
+                                verbose_name='Product',
+                                null=True)
+    tags = models.CharField(max_length=300,
+                            verbose_name='Tags',
+                            null=True)
+    hashtags = models.CharField(max_length=300,
+                                verbose_name='Hashtags',
+                                null=True,
+                                blank=True)
+    link = models.URLField(max_length=200,
+                           verbose_name='Link')
+    date = models.DateField(verbose_name='Posted date',
+                            null=True)
     status = models.CharField(max_length=10,
                               choices=STATUS,
                               verbose_name='Status',
                               default='Draft')
-    link = models.URLField(max_length=200,
-                           verbose_name='Link',
-                           null=True)
-    short = models.URLField(max_length=50,
-                            verbose_name='Short link',
-                            null=True)
-    date = models.DateField(verbose_name='Posted date',
-                            null=True)
-    ig = models.BooleanField(verbose_name='Published on Instagram',
+    ig = models.BooleanField(verbose_name='Published on IG',
                              default=False)
     co = models.BooleanField(verbose_name='Comments replied',
                              default=False)
+    upload_path = 'media/post'
+    image = models.ImageField(upload_to=upload_path, null=True, blank=True)
+    image_url = models.URLField(null=True, blank=True)
 
     class Meta:
         ordering = ['-date']
@@ -121,8 +141,13 @@ class Post(models.Model):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
     def clean(self):
-        if self.hashtags == '':
-            self.hashtags = generate_hashtags(self.product)
+        if getattr(self, 'hashtags', None) is None:
+            if any(ext in self.title for ext in ['Project', 'Terminados', 'Empties']):
+                self.hashtags = 'Project Pan update! ' + GENERIC_LIST + PROJECTPAN_LIST
+            elif 'Nail Art' in self.title:
+                self.hashtags = GENERIC_LIST + ' #'.join(NAILPOLISH_LIST) + NAILS_LIST
+            else:
+                self.hashtags = generate_hashtags(self.product)
         if self.status == 'draft' and self.pub_date is not None:
             raise ValidationError('Drafts may not have a publication date.')
         if self.status == 'published' and self.pub_date is None:
