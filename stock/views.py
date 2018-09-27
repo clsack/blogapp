@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail, EmailMultiAlternatives
 
 from .blogger import Credentials
 
@@ -302,3 +303,19 @@ def get_posts(request):
                         )
             data.save()
     return render(request, 'posts/list.html')
+
+
+def send_mail_post(request):
+    from .views import Post
+    posts = Post.objects.filter(ig=False).exclude(hashtags='').exclude(hashtags=None)
+    from_email = 'clsack@gmail.com'
+    to = 'clsack@gmail.com'
+    for post in posts:
+        subject = post.title
+        text_content = post.hashtags
+
+        # create the email, and attach the HTML version as well.
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.send()
+        post.ig = True
+        post.save()

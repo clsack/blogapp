@@ -221,3 +221,7 @@ def redirect_if_no_refresh_token(backend, response, social, *args, **kwargs):
        response.get('refresh_token') is None and \
        social.extra_data.get('refresh_token') is None:
         return redirect('/login/google-oauth2?approval_prompt=force')
+
+
+
+

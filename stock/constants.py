@@ -11,9 +11,12 @@ Created on Tue Aug 21 13:08:51 2018
 
 CATEGORY = (
     ('Accesories', (
+            ('buffer', 'Buffer'),
+            ('brush', 'Brush'),
             ('sheets', 'Sheets'),
             ('sponge', 'Sponge'),
-            ('buffer', 'Buffer'),
+            ('stampingplate', 'Stamping plate'),
+
             )),
     ('Skin Care', (
             ('bodycream', 'Body cream'),
@@ -65,6 +68,16 @@ CATEGORY = (
             ('bodysplash', 'Body splash'),
             ('toilette', 'Eau de Toilette'),
             ('parfum', 'Eau de Parfum'),
+            )),
+    ('Stationery', (
+            ('eraser', 'Eraser'),
+            ('highlighter', 'Highlighter'),
+            ('legalpad', 'Legal pad'),
+            ('messagepad', 'Message pad'),
+            ('notepad', 'Note pad'),
+            ('pen', 'Pen'),
+            ('postit', 'Post it'),
+            ('stationery', 'Stationery'),
             )),
     ('Other', (
             ('empties', 'Empties'),
@@ -190,9 +203,8 @@ SKINCARE = [x[0] for x in CATEGORY[1][1]]
 NAILPOLISH = [x[0] for x in CATEGORY[2][1]]
 MAKEUP = [x[0] for x in CATEGORY[3][1]]
 PARFUM = [x[0] for x in CATEGORY[4][1]]
-
-PROJECTPAN_LIST = ' #projectpan #projectpan2018 #panporn #panthatpalette \
-    #aufgebraucht #panthatpalette2018 #empties #terminados'
+STATIONERY = [x[0] for x in CATEGORY[5][1]]
+OTHER = [x[0] for x in CATEGORY[6][1]]
 
 GENERIC_LIST = ' #beautyblogger #beautyblog #beauty #bblogger'
 
@@ -241,3 +253,8 @@ MAKEUP_LIST = ['makeup',
 PARFUM_LIST = ['parfum',
                'perfume',
                'fragance']
+
+STATIONERY_LIST = ['stationery']
+
+PROJECTPAN_LIST = ' #projectpan #projectpan2018 #panporn #panthatpalette \
+    #aufgebraucht #panthatpalette2018 #empties #terminados'

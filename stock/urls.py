@@ -90,4 +90,8 @@ urlpatterns = [
     path('posts/get_posts',
          views.get_posts,
          name='get-list'),
+
+    path('posts/send_mail_post',
+         views.send_mail_post,
+         name='send-list'),
     ]

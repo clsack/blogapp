@@ -87,6 +87,7 @@ class PostAdmin(admin.ModelAdmin):
                     'ig',
                     'co']
     ordering = ['-date']
+    list_filter = ['ig', 'brand']
     actions = [generate_hashtags, mark_as_publishedig]
 
 
