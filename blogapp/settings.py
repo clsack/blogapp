@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', ]
 
+# APPEND_SLASH = False
 
 # Application definition
 
