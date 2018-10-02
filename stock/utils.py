@@ -212,7 +212,11 @@ def generate_hashtags(product):
         words = ' #' + ' #'.join(MAKEUP_LIST)
     elif product.category in PARFUM:
         words = ' #'.join(PARFUM_LIST)
+    else:
+        words = ''
     hashtags_list = brand + category + GENERIC_LIST + words
+    product.status = 1
+    product.save()
     return hashtags_list
 
 

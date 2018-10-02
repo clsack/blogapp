@@ -13,7 +13,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('login/', views.logout, name='logout'),
+    path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
     path('products/add/',
          views.ProductCreate.as_view(),
          name='product-add'),
@@ -89,9 +90,9 @@ urlpatterns = [
     # Load posts
     path('posts/get_posts/',
          views.get_posts,
-         name='get-list')
+         name='get-list'),
 
-#    path('posts/send_mail_post',
-#         views.send_mail_post,
-#         name='send-list'),
+    path('posts/send_mail_post',
+         views.send_mail_post,
+         name='send-list'),
     ]

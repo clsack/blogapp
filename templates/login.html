@@ -37,11 +37,16 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-12">
-                            <form action="index.html" method="post" class="tm-login-form">
+                            <div class="input-group mt-3">
+                                <a class="d-inline-block mx-auto" href="{% url "social:begin" "google-oauth2" %}"><button type="submit" class="btn btn-primary">Blogger</button></a>
+                            </div>
+                        {% comment %}
+                            <form action="/" method="post" class="tm-login-form">
                                 <div class="input-group mt-3">
                                     <button type="submit" class="btn btn-primary d-inline-block mx-auto"><a href="{% url "social:begin" "google-oauth2" %}">Blogger</a></button>
                                 </div>
                             </form>
+                        {% endcomment %}
                         </div>
                     </div>
                 </div>

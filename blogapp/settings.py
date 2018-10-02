@@ -121,7 +121,7 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_LOGIN_ERROR_URL = "/"
 
-LOGIN_URL = "/login/google-oauth2/"
+LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGIN_ERROR_URL = "/"
 
@@ -149,6 +149,17 @@ AUTHENTICATION_BACKENDS = (
 )
 
 BLOG_URL = 'https://bordeauxnouvelle.blogspot.com'
+
+# Mailing
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_TO_EMAIL = EMAIL_HOST_USER
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

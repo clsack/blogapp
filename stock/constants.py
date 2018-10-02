@@ -82,6 +82,7 @@ CATEGORY = (
     ('Other', (
             ('empties', 'Empties'),
             ('projectpan', 'Project pan'),
+            ('beautybox', 'Beauty Box'),
             )),
 )
 
@@ -256,5 +257,4 @@ PARFUM_LIST = ['parfum',
 
 STATIONERY_LIST = ['stationery']
 
-PROJECTPAN_LIST = ' #projectpan #projectpan2018 #panporn #panthatpalette \
-    #aufgebraucht #panthatpalette2018 #empties #terminados'
+PROJECTPAN_LIST = ' #projectpan #projectpan2018 #panporn #panthatpalette #aufgebraucht #panthatpalette2018 #empties #terminados'

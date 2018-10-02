@@ -29,13 +29,17 @@ from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
 from .filters import ProductFilter, PostFilter
 
 
-@login_required(login_url='/login/')
+#@login_required(login_url='/login/')
+@login_required
 def index(request):
     return render(request, 'index.html')
 
 
 def logout(request):
     auth_logout(request)
+    return redirect('index')
+
+def login(request):
     return render(request, 'login.html')
 
 
@@ -305,17 +309,15 @@ def get_posts(request):
     return render(request, 'posts/list.html')
 
 
-#def send_mail_post(request):
-#    from .views import Post
-#    posts = Post.objects.filter(ig=False).exclude(hashtags='').exclude(hashtags=None)
-#    from_email = 'clsack@gmail.com'
-#    to = 'clsack@gmail.com'
-#    for post in posts:
-#        subject = post.title
-#        text_content = post.hashtags
-#
-#        # create the email, and attach the HTML version as well.
-#        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-#        msg.send()
-#        post.ig = True
-#        post.save()
+def send_mail_post(request):
+    from .views import Post
+    posts = Post.objects.filter(ig=False).exclude(hashtags='').exclude(hashtags=None)
+    from_email = settings.EMAIL_HOST_USER
+    to = settings.EMAIL_HOST_USER
+    for post in posts:
+        subject = post.title
+        text_content = post.title + " " + post.hashtags + " " + post.image_url
+
+        # create the email, and attach the HTML version as well.
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.send()
