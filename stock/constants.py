@@ -71,8 +71,9 @@ CATEGORY = (
             )),
     ('Stationery', (
             ('eraser', 'Eraser'),
-            ('highlighter', 'Highlighter'),
+            ('journal', 'Journal'),
             ('legalpad', 'Legal pad'),
+            ('marker', 'Marker'),
             ('messagepad', 'Message pad'),
             ('notepad', 'Note pad'),
             ('pen', 'Pen'),
