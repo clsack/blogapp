@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <div>
-    {{ the_div|safe }}
-    {{ the_script|safe }}
+    <div class="row tm-content-row tm-mt-big">
+        <div class="col-lg-12 tm-md-12 tm-sm-12 tm-col">
+            <div class="bg-white tm-block h-100">
+                {{ the_div|safe }}
+            </div>
+            {{ the_script|safe }}
+        </div>
+    </div>
 </div>
 {% endblock %}

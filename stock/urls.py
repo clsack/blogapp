@@ -60,8 +60,8 @@ urlpatterns = [
          views.ProjectPanListView.as_view(),
          name='projectpan-list'),
 
-    path('products/graph/',
-         views.ProductGraph.as_view(),
+    path('products/product_graph/',
+         views.product_graph,
          name='product-graph'),
 
     # Posts urls

@@ -1,35 +1,36 @@
-from django.shortcuts import render, redirect
+from django.conf import settings
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMultiAlternatives
+from django.db.models import Count
+from django.shortcuts import render, redirect, render_to_response
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views import generic
 from django.urls import reverse_lazy
-from django.db.models import Count
-from django.conf import settings
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth import login as auth_login, logout as auth_logout
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import send_mail, EmailMultiAlternatives
 
 from .blogger import Credentials
 
-from googleapiclient import discovery
-import urllib
+import math
 import os
-
-# Bokeh
-from bokeh.plotting import figure
-from bokeh.resources import CDN
-from bokeh.embed import components
-from dateutil import parser
 import re
+import urllib
+
+from bokeh.embed import components
+from bokeh.models import HoverTool, ColumnDataSource
+from bokeh.palettes import Plasma256
+from bokeh.plotting import figure
+from dateutil import parser
+from googleapiclient import discovery
+import itertools
 
 from .models import Product, Post
-from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM
+from .constants import ACCESORIES, SKINCARE, NAILPOLISH, MAKEUP, PARFUM, STATIONERY, OTHER
 from .filters import ProductFilter, PostFilter
 
 
-#@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 @login_required
 def index(request):
     return render(request, 'index.html')
@@ -38,6 +39,7 @@ def index(request):
 def logout(request):
     auth_logout(request)
     return redirect('index')
+
 
 def login(request):
     return render(request, 'login.html')
@@ -172,33 +174,68 @@ class ProjectPanListView(ListView):
     template_name = 'products/list.html'
 
 
-class ProductGraph(ListView):
-    context_object_name = 'product_graph'
-    template_name = 'products/product_graph.html'
-    queryset = Product.objects.exclude(category__in=NAILPOLISH)\
-        .exclude(finished=True)
+def product_graph(request):
+    queryset = Product.objects.filter(finished=False)\
+                .exclude(category__in=NAILPOLISH)\
+                .exclude(category__in=STATIONERY)\
+                .exclude(category__in=PARFUM)\
+                .exclude(category__in=OTHER)\
+                .values('category')\
+                .annotate(total=Count('category'))\
+                .order_by('category')
+    categories = [cat['category'] for cat in queryset]
+    count = [cat['total'] for cat in queryset]
+    bars = len(categories)
+    colors = itertools.cycle(Plasma256)
+    palette = []
+    for m, color in zip(range(bars), colors):
+        palette.append(color)
+    source = ColumnDataSource(data=dict(categories=categories,
+                                        count=count,
+                                        color=palette))
+    title = "Stock for category"
+    hover = HoverTool(tooltips=[
+            ("Category", "@categories"),
+            ("Count", "@count"),
+            ])
+    plot = figure(title=title,
+                  x_range=categories,
+                  plot_height=500,
+                  plot_width=1500,
+                  toolbar_location=None,
+                  tools=[hover])
 
-    def simple_chart(request):
-        categories = ACCESORIES + SKINCARE + MAKEUP + PARFUM
+    plot.vbar(x='categories',
+              top='count',
+              bottom=0,
+              width=0.9,
+              color='color',
+              source=source)
 
-        count = Product.objects.annotate(num=Count('category'))
+    plot.y_range.start = 0
+    plot.xaxis.major_label_orientation = math.pi/4
 
-        plot = figure(x_range=categories,
-                      plot_height=250,
-                      title="Stock for category",
-                      toolbar_location=None,
-                      tools="")
+    script, div = components(plot)
 
-        plot.vbar(x=categories.sort(), top=count, width=0.9)
+    return render_to_response("products/product_graph.html",
+                              {"the_script": script, "the_div": div})
 
-        plot.xgrid.grid_line_color = None
-        plot.y_range.start = 0
 
-        script, div = components(plot, CDN)
+@staticmethod
+def report_makeup():
+    return (Product.objects.filter(finished=False)
+                   .filter(category__in=MAKEUP)
+                   .values('category')
+                   .annotate(total=Count('category'))
+                   .order_by('category'))
 
-        return render(request,
-                      "products/product_graph.html",
-                      {"the_script": script, "the_div": div})
+
+def report_skincare():
+    return (Product.objects.filter(finished=False)
+                   .filter(category__in=SKINCARE)
+                   .values('category')
+                   .annotate(total=Count('category'))
+                   .order_by('category'))
 
 
 class PostCreate(CreateView):
@@ -311,7 +348,9 @@ def get_posts(request):
 
 def send_mail_post(request):
     from .views import Post
-    posts = Post.objects.filter(ig=False).exclude(hashtags='').exclude(hashtags=None)
+    posts = Post.objects.filter(ig=False)\
+                .exclude(hashtags='')\
+                .exclude(hashtags=None)
     from_email = settings.EMAIL_HOST_USER
     to = settings.EMAIL_HOST_USER
     for post in posts:
